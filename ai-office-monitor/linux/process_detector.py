@@ -22,6 +22,7 @@ GENERAL_MODEL_PATTERN = re.compile(r'--model[ =]+([^\s]+)', re.IGNORECASE)
 SERVE_PATTERN = re.compile(r'(?:vllm|sglang|tgi|triton|text-generation|ollama)', re.IGNORECASE)
 TRAIN_PATTERN = re.compile(r'(?:train|finetune|trainer|deepspeed|accelerate)', re.IGNORECASE)
 INFERENCE_PATTERN = re.compile(r'(?:inference|generate|complet|chat|serve|llama\.cpp|llama-cpp|vllm)', re.IGNORECASE)
+SCRIPT_PATTERN = re.compile(r'(?:^|\s|[\/\\])[\w\-.]+\.py\b|python(?:3)?\s+-m\s+[\w.]+', re.IGNORECASE)
 
 
 def enrich_processes(gpu_processes):
@@ -126,6 +127,8 @@ def _detect_work_type(cmdline, process_name):
         return "training"
     if SERVE_PATTERN.search(full_cmd) or INFERENCE_PATTERN.search(full_cmd):
         return "inference"
+    if SCRIPT_PATTERN.search(full_cmd):
+        return "script"
     if "python" in (process_name or "").lower() or "python3" in (process_name or "").lower():
         return "compute"
     return "working"
