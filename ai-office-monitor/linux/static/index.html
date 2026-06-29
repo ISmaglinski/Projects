@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Office Monitor</title>
+    <meta name="description" content="Real-time visualization of AI models working in their little offices">
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="icon" type="image/svg+xml" href="/static/icons/icon.svg">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Top bar with system stats -->
+        <header id="topbar">
+            <div class="logo">
+                <span class="logo-icon">🏢</span>
+                <h1>AI Office Monitor</h1>
+            </div>
+            <div id="system-stats" class="system-stats">
+                <div class="stat-pill" id="stat-cpu">
+                    <span class="stat-icon">🧠</span>
+                    <span class="stat-label">CPU</span>
+                    <span class="stat-value" id="cpu-value">--</span>
+                </div>
+                <div class="stat-pill" id="stat-ram">
+                    <span class="stat-icon">💾</span>
+                    <span class="stat-label">RAM</span>
+                    <span class="stat-value" id="ram-value">--</span>
+                </div>
+                <div class="stat-pill" id="stat-gpus">
+                    <span class="stat-icon">🖥️</span>
+                    <span class="stat-label">GPUs</span>
+                    <span class="stat-value" id="gpu-count">--</span>
+                </div>
+                <div class="stat-pill" id="stat-connection">
+                    <span class="stat-icon" id="conn-icon">🔌</span>
+                    <span class="stat-label" id="conn-label">Disconnected</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main canvas for the office visualization -->
+        <main id="canvas-container">
+            <canvas id="office-canvas"></canvas>
+            <div id="loading-overlay" class="loading-overlay">
+                <div class="loading-content">
+                    <div class="loading-spinner"></div>
+                    <p>Connecting to AI Office...</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom detail panel -->
+        <footer id="detail-panel" class="detail-panel">
+            <div class="detail-header">
+                <h2 id="detail-title">Click an office to see details</h2>
+            </div>
+            <div id="detail-content" class="detail-content">
+                <p class="placeholder">Select an office (GPU) to view running processes and details.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script type="module" src="/static/app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/static/sw.js').catch(() => {});
+            });
+        }
+    </script>
+</body>
+</html>
