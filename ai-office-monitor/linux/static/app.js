@@ -1,5 +1,5 @@
 /* app.js - WebSocket client */
-import { Scene } from './scene.js';
+import { Scene } from './scene.js?v=3';
 
 const WS_SCHEME = window.location.protocol === 'https:' ? 'wss' : 'ws';
 const WS_URL = `${WS_SCHEME}://${window.location.host}/ws`;
@@ -141,11 +141,22 @@ function handleSelectGpu(index, gpuData) {
             const vMB = (p.vram_used || 0) / 1024 ** 2;
             const rMB = (p.ram_used || 0) / 1024 ** 2;
             const model = p.model_name || p.name || 'Unknown';
+            const command = p.cmdline || p.cwd || '';
+            const runtime = [
+                `PID:${p.pid || '--'}`,
+                `CPU:${p.cpu_percent || 0}%`,
+                `RAM:${rMB.toFixed(0)}MB`,
+                p.status ? `STATUS:${p.status}` : '',
+                p.threads ? `THREADS:${p.threads}` : '',
+            ]
+                .filter(Boolean)
+                .join(' ');
             html += `<div class="process-item">
                 <span class="proc-icon">${icon(type)}</span>
                 <div class="proc-info">
                     <span class="proc-name">${esc(model)} <span class="badge badge-${type}">${type}</span></span>
-                    <span class="proc-meta">PID:${esc(String(p.pid || '--'))} CPU:${esc(String(p.cpu_percent || 0))}% RAM:${rMB.toFixed(0)}MB</span>
+                    <span class="proc-meta">${esc(runtime)}</span>
+                    ${command ? `<span class="proc-command">${esc(command)}</span>` : ''}
                 </div>
                 <span class="proc-vram">${vMB.toFixed(0)}MB</span>
             </div>`;
@@ -233,7 +244,13 @@ function makeDemoState(t) {
                     cpu_percent: Math.round(4 + utilization * 0.18),
                     ram_used: (1.2 + index * 0.7) * gb,
                     vram_used: total * usedPct * 0.86,
-                    cmdline: '',
+                    cmdline:
+                        spec.type === 'script'
+                            ? `python ${spec.model} --gpu ${index} --watch`
+                            : `${spec.type}-worker --model ${spec.model} --gpu ${index}`,
+                    cwd: '/srv/ai-workloads',
+                    status: 'running',
+                    threads: 8 + index * 2,
                     create_time: 0,
                 },
             ],

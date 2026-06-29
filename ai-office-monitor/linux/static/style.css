@@ -214,11 +214,14 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 100;
-    transition: opacity 0.35s ease;
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
 }
 
 .loading-overlay.hidden {
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
 }
 
@@ -352,7 +355,7 @@ body {
 
 .process-item {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 12px;
     padding: 10px 12px;
     background: rgba(34, 38, 45, 0.74);
@@ -403,6 +406,18 @@ body {
     color: var(--accent-blue);
     font-weight: 720;
     flex-shrink: 0;
+    padding-top: 5px;
+}
+
+.process-item .proc-command {
+    color: #b8c0b7;
+    font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+    font-size: 10px;
+    line-height: 1.35;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
 .badge {

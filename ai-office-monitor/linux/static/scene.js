@@ -1,7 +1,7 @@
 /* scene.js - Game loop and state management */
 
-import { Office } from './office.js';
-import { Worker } from './worker.js';
+import { Office } from './office.js?v=3';
+import { Worker } from './worker.js?v=3';
 
 export class Scene {
     constructor(canvas) {
@@ -143,6 +143,7 @@ export class Scene {
     _draw(dt) {
         this.office.draw(dt, this.gpus);
         for (const worker of this.workers) {
+            worker.updateFromGpu(this.gpus[worker.gpuIndex] || {});
             const layoutObj = worker.layout;
             this.ctx.save();
             this.ctx.beginPath();

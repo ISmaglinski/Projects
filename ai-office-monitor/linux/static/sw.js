@@ -1,4 +1,4 @@
-const CACHE_NAME="ai-office-v1";
+const CACHE_NAME="ai-office-v3";
 const ASSETS=["/","/static/index.html","/static/style.css","/static/app.js","/static/scene.js","/static/office.js","/static/worker.js","/static/manifest.json"];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(ASSETS).catch(()=>{})));self.skipWaiting();});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(n=>Promise.all(n.filter(x=>x!==CACHE_NAME).map(x=>caches.delete(x)))));self.clients.claim();});

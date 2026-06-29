@@ -38,6 +38,10 @@ def enrich_processes(gpu_processes):
             name = p.name()
             cpu_percent = p.cpu_percent(interval=0.05)
             memory_info = p.memory_info()
+            try:
+                cwd = p.cwd()
+            except (psutil.AccessDenied, psutil.NoSuchProcess):
+                cwd = ""
 
             model_name = _detect_model_name(cmdline, name)
             work_type = _detect_work_type(cmdline, name)
@@ -45,7 +49,10 @@ def enrich_processes(gpu_processes):
             enriched.append({
                 "pid": pid,
                 "name": name,
-                "cmdline": " ".join(cmdline[:10]) if cmdline else "",
+                "cmdline": " ".join(cmdline[:16]) if cmdline else "",
+                "cwd": cwd,
+                "status": p.status(),
+                "threads": p.num_threads(),
                 "model_name": model_name,
                 "type": work_type,
                 "cpu_percent": round(cpu_percent, 1),
