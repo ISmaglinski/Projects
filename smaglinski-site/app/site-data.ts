@@ -351,7 +351,7 @@ export const sharedProjects = [
     slug: "ai-machine",
     title: "The AI Machine",
     category: "Local AI compute",
-    image: "/images/projects/ai-machine.png",
+    image: "/images/projects/ai-machine.jpg",
     alt: "Open-air multi-GPU computer built for local AI workloads",
     description:
       "An open-air, multi-GPU system assembled for hands-on AI experimentation and compute-intensive workloads.",
