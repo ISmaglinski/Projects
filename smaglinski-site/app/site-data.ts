@@ -14,6 +14,7 @@ export type Project = {
   kicker: string;
   description: string;
   tools: string[];
+  sourceUrl?: string;
 };
 
 export type Education = {
@@ -21,6 +22,23 @@ export type Education = {
   degree: string;
   range: string;
   detail?: string;
+};
+
+export type SharedProject = {
+  number: string;
+  slug: string;
+  title: string;
+  category: string;
+  image: string;
+  alt: string;
+  description: string;
+  note: string;
+  size: "feature" | "standard" | "wide";
+  position: string;
+  specs?: { label: string; value: string }[];
+  secondaryImage?: string;
+  secondaryAlt?: string;
+  evidenceCaption?: string;
 };
 
 export type Person = {
@@ -34,6 +52,11 @@ export type Person = {
   accent: string;
   initials: string;
   status: "complete" | "pending";
+  primaryPortrait?: string;
+  hoverPortrait?: string;
+  portraitAlt?: string;
+  portraitPosition?: string;
+  hoverPosition?: string;
   profileHeadline: string;
   intro: string;
   about: string[];
@@ -56,9 +79,14 @@ export const people: Record<PersonKey, Person> = {
     familyRole: "Youngest",
     title: "Computer Science Student",
     cardLine: "Data analytics · AI · systems",
-    accent: "#42d7ff",
+    accent: "#d75b58",
     initials: "IS",
     status: "complete",
+    primaryPortrait: "/images/portraits/temporary-headshot.jpg",
+    hoverPortrait: "/images/portraits/temporary-full-body.jpg",
+    portraitAlt: "Temporary faceless portrait stand-in for Ian",
+    portraitPosition: "50% 42%",
+    hoverPosition: "50% 50%",
     profileHeadline: "Learning the systems. Building the proof.",
     intro:
       "Ian is a computer science student turning coursework into practical data, analytics, and AI projects — with an eye toward the hardware that makes them run.",
@@ -89,6 +117,22 @@ export const people: Record<PersonKey, Person> = {
       },
     ],
     projects: [
+      {
+        kicker: "Team software engineering",
+        title: "Rocky",
+        description:
+          "A team-built, Canvas-inspired course platform for enrollment, roster and group management, and controlled access to university LLM API keys. Ian contributed the account, help, and credits experiences plus the API key generator.",
+        tools: [
+          "SvelteKit",
+          "TypeScript",
+          "Flask",
+          "MongoDB",
+          "Course administration",
+          "LLM API keys",
+        ],
+        sourceUrl:
+          "https://github.com/Spring-2026-Software-Engineering/Rocky",
+      },
       {
         kicker: "Data pipeline",
         title: "SQL to Power BI Analytics",
@@ -162,9 +206,14 @@ export const people: Record<PersonKey, Person> = {
     familyRole: "Middle",
     title: "Data Analyst",
     cardLine: "SQL · BI · applied AI",
-    accent: "#7b8cff",
+    accent: "#4f9469",
     initials: "JS",
     status: "complete",
+    primaryPortrait: "/images/portraits/temporary-headshot.jpg",
+    hoverPortrait: "/images/portraits/temporary-full-body.jpg",
+    portraitAlt: "Temporary faceless portrait stand-in for Jacob",
+    portraitPosition: "50% 42%",
+    hoverPosition: "50% 50%",
     profileHeadline: "From messy systems to clear decisions.",
     intro:
       "Jacob is a data analyst working across data quality, business intelligence, observability, healthcare analytics, and applied machine learning.",
@@ -319,9 +368,14 @@ export const people: Record<PersonKey, Person> = {
     familyRole: "Oldest",
     title: "Profile in progress",
     cardLine: "Story · work · details coming",
-    accent: "#ff8a4c",
+    accent: "#d9aa32",
     initials: "IS",
     status: "pending",
+    primaryPortrait: "/images/portraits/temporary-headshot.jpg",
+    hoverPortrait: "/images/portraits/temporary-full-body.jpg",
+    portraitAlt: "Temporary faceless portrait stand-in for Isaac",
+    portraitPosition: "50% 42%",
+    hoverPosition: "50% 50%",
     profileHeadline: "The next chapter is being assembled.",
     intro:
       "Isaac's page is ready for his portrait, background, resume, and the projects he wants to feature.",
@@ -345,7 +399,7 @@ export const people: Record<PersonKey, Person> = {
 
 export const personOrder: PersonKey[] = ["ian", "jacob", "isaac"];
 
-export const sharedProjects = [
+export const sharedProjects: SharedProject[] = [
   {
     number: "01",
     slug: "ai-machine",
@@ -354,10 +408,21 @@ export const sharedProjects = [
     image: "/images/projects/ai-machine.jpg",
     alt: "Open-air multi-GPU computer built for local AI workloads",
     description:
-      "An open-air, multi-GPU system assembled for hands-on AI experimentation and compute-intensive workloads.",
-    note: "Build story and benchmarks coming soon",
+      "A four-GPU local AI workstation built around four NVIDIA GeForce RTX 3090 cards, providing 96 GB of aggregate VRAM alongside 128 GB of DDR4 system memory.",
+    note: "Four RTX 3090s validated under sustained compute load",
     size: "feature",
     position: "58% 72%",
+    specs: [
+      { label: "GPUs", value: "4 x RTX 3090" },
+      { label: "Aggregate VRAM", value: "96 GB" },
+      { label: "System memory", value: "128 GB DDR4" },
+      { label: "Workload", value: "Local AI compute" },
+    ],
+    secondaryImage: "/images/projects/nvidia-smi.png",
+    secondaryAlt:
+      "NVIDIA-SMI output showing four RTX 3090 GPUs at 100 percent utilization and about 21.5 GiB used on each GPU",
+    evidenceCaption:
+      "All four RTX 3090s under sustained load: NVIDIA-SMI shows 100% GPU utilization and roughly 21.5 GiB in use per card.",
   },
   {
     number: "02",
@@ -398,4 +463,4 @@ export const sharedProjects = [
     size: "wide",
     position: "50% 42%",
   },
-] as const;
+];

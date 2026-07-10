@@ -44,26 +44,51 @@ export function PortraitPlaceholder({
   profile?: boolean;
 }) {
   const style = { "--accent": person.accent } as AccentStyle;
+  const hasPortraits = Boolean(person.primaryPortrait && person.hoverPortrait);
 
   return (
     <div
-      className={`portrait-system${profile ? " portrait-system--profile" : ""}`}
+      className={`portrait-system${profile ? " portrait-system--profile" : ""}${
+        hasPortraits ? " has-portrait-photos" : ""
+      }`}
       style={style}
-      aria-label={`${person.firstName} Smaglinski portrait placeholder`}
-      role="img"
     >
-      <div className="portrait-layer portrait-layer--primary" aria-hidden="true">
-        <span className="portrait-coordinate">{person.number} / PORTRAIT</span>
-        <span className="portrait-initials">{person.initials}</span>
-        <span className="portrait-first-name">{person.firstName}</span>
-        <span className="portrait-pending">IMAGE PENDING</span>
-      </div>
-      <div className="portrait-layer portrait-layer--alternate" aria-hidden="true">
-        <span className="portrait-coordinate">ALT / FRAME 02</span>
-        <span className="portrait-outline-name">{person.firstName}</span>
-        <span className="portrait-seal">S / {person.number}</span>
-        <span className="portrait-pending">HOVER PORTRAIT PENDING</span>
-      </div>
+      {hasPortraits ? (
+        <>
+          <div className="portrait-layer portrait-layer--primary portrait-photo-layer">
+            <Image
+              src={person.primaryPortrait!}
+              alt={person.portraitAlt ?? `${person.firstName} Smaglinski portrait placeholder`}
+              fill
+              loading="eager"
+              sizes={profile ? "(max-width: 680px) 256px, 28vw" : "(max-width: 680px) 76vw, 32vw"}
+              style={{ objectPosition: person.portraitPosition ?? "50% 50%" }}
+            />
+          </div>
+          {!profile ? (
+            <div className="portrait-layer portrait-layer--alternate portrait-photo-layer" aria-hidden="true">
+              <Image
+                src={person.hoverPortrait!}
+                alt=""
+                fill
+                loading="eager"
+                sizes="(max-width: 680px) 76vw, 32vw"
+                style={{ objectPosition: person.hoverPosition ?? "50% 50%" }}
+              />
+            </div>
+          ) : null}
+          <span className="temporary-portrait-label">Temporary portrait</span>
+        </>
+      ) : (
+        <>
+          <div className="portrait-layer portrait-layer--primary" aria-hidden="true">
+            <span className="portrait-initials">{person.initials}</span>
+          </div>
+          <div className="portrait-layer portrait-layer--alternate" aria-hidden="true">
+            <span className="portrait-outline-name">{person.firstName}</span>
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -79,7 +104,7 @@ export function PersonCard({ person, index }: { person: Person; index: number })
       className={`person-card person-card--${person.key}`}
       href={`/${person.key}`}
       style={style}
-      aria-label={`View ${person.firstName} Smaglinski's profile`}
+      aria-label={`${person.firstName} Smaglinski, ${person.title}. View profile.`}
     >
       <PortraitPlaceholder person={person} />
       <span className="person-card-scrim" aria-hidden="true" />
@@ -97,6 +122,9 @@ export function PersonCard({ person, index }: { person: Person; index: number })
         <span className="person-card-link">
           View profile <span aria-hidden="true">↗</span>
         </span>
+      </span>
+      <span className="person-card-hover-copy" aria-hidden="true">
+        <strong>{person.firstName}</strong>
       </span>
     </Link>
   );
