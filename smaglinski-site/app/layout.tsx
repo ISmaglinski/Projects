@@ -1,6 +1,35 @@
 import type { Metadata, Viewport } from "next";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import "./warm.css";
+
+const themeBootstrap = `
+(() => {
+  const root = document.documentElement;
+  const media = window.matchMedia("(prefers-color-scheme: dark)");
+  let preference = "system";
+
+  try {
+    const stored = localStorage.getItem("smaglinski-theme");
+    if (stored === "system" || stored === "light" || stored === "dark") {
+      preference = stored;
+    }
+  } catch {}
+
+  const resolved =
+    preference === "system"
+      ? (media.matches ? "dark" : "light")
+      : preference;
+
+  root.dataset.theme = resolved;
+  root.dataset.themePreference = preference;
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) {
+    meta.setAttribute("content", resolved === "dark" ? "#151713" : "#f3efe7");
+  }
+})();
+`;
 
 export const metadata: Metadata = {
   metadataBase: new URL("http://127.0.0.1:3000"),
@@ -33,28 +62,18 @@ export const metadata: Metadata = {
     description:
       "Data, AI, custom hardware, and infrastructure, built by the Smaglinskis.",
     url: "/",
-    images: [
-      {
-        url: "/og.png",
-        width: 1748,
-        height: 909,
-        alt: "Smaglinski, three brothers who build",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Three brothers. One instinct: build.",
     description: "The shared portfolio of Ian, Jacob, and Isaac Smaglinski.",
-    images: ["/og.png"],
   },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#070a0f",
-  colorScheme: "dark",
+  colorScheme: "light dark",
 };
 
 export default function RootLayout({
@@ -63,7 +82,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${GeistSans.variable} ${GeistMono.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <meta name="theme-color" content="#f3efe7" />
+        <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
+      </head>
       <body>{children}</body>
     </html>
   );

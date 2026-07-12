@@ -69,6 +69,54 @@ test("adds Ian's verified Rocky team project and source link", async () => {
   assert.match(profile, /View on GitHub/);
 });
 
+test("integrates Isaac's resume across every profile section", async () => {
+  const data = await readFile(new URL("app/site-data.ts", root), "utf8");
+
+  assert.match(data, /isaac: \{/);
+  assert.match(data, /status: "complete"/);
+  assert.match(data, /Bridgestone/);
+  assert.match(data, /Heartland Community Church/);
+  assert.match(data, /Hartville Hardware/);
+  assert.match(data, /RiverTree Lake Church/);
+  assert.match(data, /Associate of Computer Engineering/);
+  assert.match(data, /Google Data Analytics Certificate/);
+  assert.match(data, /IsaacSmagz@gmail\.com/);
+});
+
+test("offers a persistent system-aware light and dark theme control", async () => {
+  const layout = await readFile(new URL("app/layout.tsx", root), "utf8");
+  const control = await readFile(
+    new URL("app/theme-control.tsx", root),
+    "utf8",
+  );
+  const styles = await readFile(new URL("app/warm.css", root), "utf8");
+
+  assert.match(layout, /prefers-color-scheme: dark/);
+  assert.match(layout, /suppressHydrationWarning/);
+  assert.match(control, /smaglinski-theme/);
+  assert.match(control, /value="system">Auto/);
+  assert.match(control, /value="light">Light/);
+  assert.match(control, /value="dark">Dark/);
+  assert.match(styles, /:root\[data-theme="dark"\]/);
+  assert.match(styles, /--profile-layout-max: 180rem/);
+});
+
+test("keeps long profile names and headings readable", async () => {
+  const styles = await readFile(new URL("app/warm.css", root), "utf8");
+
+  assert.match(
+    styles,
+    /\.profile-identity-block h1\s*\{[^}]*line-height:\s*1;/s,
+  );
+  assert.match(
+    styles,
+    /\.profile-overview-copy h2\s*\{[^}]*line-height:\s*1\.08;/s,
+  );
+  assert.match(styles, /text-wrap:\s*balance/);
+  assert.match(styles, /overflow-wrap:\s*anywhere/);
+  assert.match(styles, /scrollbar-gutter:\s*stable/);
+});
+
 test("every brother profile exposes the same four tab choices", async () => {
   const profile = await readFile(new URL("app/profile-tabs.tsx", root), "utf8");
 

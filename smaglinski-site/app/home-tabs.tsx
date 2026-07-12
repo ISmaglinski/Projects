@@ -6,6 +6,7 @@ import Link from "next/link";
 import { PersonCard } from "./components";
 import { FamilyChat } from "./family-chat";
 import { people, personOrder, sharedProjects } from "./site-data";
+import { ThemeControl } from "./theme-control";
 import { useHashTabs } from "./use-tabs";
 
 const HOME_TABS = [
@@ -157,15 +158,18 @@ export function HomeTabs() {
           ))}
         </div>
 
-        <button
-          className="home-chat-launcher"
-          type="button"
-          onClick={() => setChatOpen(true)}
-          aria-expanded={chatOpen}
-          aria-controls="family-chat-panel"
-        >
-          <span aria-hidden="true">●</span> Ask us
-        </button>
+        <div className="interface-actions">
+          <button
+            className="home-chat-launcher"
+            type="button"
+            onClick={() => setChatOpen(true)}
+            aria-expanded={chatOpen}
+            aria-controls="family-chat-panel"
+          >
+            <span aria-hidden="true">●</span> Ask us
+          </button>
+          <ThemeControl />
+        </div>
       </header>
 
       <div className="interface-context">

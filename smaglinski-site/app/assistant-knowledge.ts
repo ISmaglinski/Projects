@@ -14,7 +14,7 @@ export function answerPortfolioQuestion(question: string): string {
   }
 
   if (normalized.includes("isaac")) {
-    return "Isaac is the oldest brother. His full portfolio is still being assembled, so the site currently keeps his profile as a clearly labeled preview.";
+    return "Isaac is an operations leader and computer engineering student with experience in sales, inventory, department management, community programs, volunteer leadership, fundraising, and Excel-based analysis.";
   }
 
   if (

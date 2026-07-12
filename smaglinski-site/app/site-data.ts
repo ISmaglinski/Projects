@@ -366,34 +366,140 @@ export const people: Record<PersonKey, Person> = {
     firstName: "Isaac",
     lastName: "Smaglinski",
     familyRole: "Oldest",
-    title: "Profile in progress",
-    cardLine: "Story · work · details coming",
+    title: "Operations Leader & Engineering Student",
+    cardLine: "Operations · leadership · data",
     accent: "#d9aa32",
-    initials: "IS",
-    status: "pending",
+    initials: "IZ",
+    status: "complete",
     primaryPortrait: "/images/portraits/temporary-headshot.jpg",
     hoverPortrait: "/images/portraits/temporary-full-body.jpg",
     portraitAlt: "Temporary faceless portrait stand-in for Isaac",
     portraitPosition: "50% 42%",
     hoverPosition: "50% 50%",
-    profileHeadline: "The next chapter is being assembled.",
+    profileHeadline: "Leading teams. Learning systems. Building what comes next.",
     intro:
-      "Isaac's page is ready for his portrait, background, resume, and the projects he wants to feature.",
+      "Isaac is an operations leader and computer engineering student whose work connects sales, inventory, people development, and data-informed decision making.",
     about: [
-      "Isaac is the oldest of the three Smaglinski brothers. His full professional story is intentionally being held open until his resume and project details are available.",
-      "The finished page structure is already here, so adding his experience, work, skills, and contact information later will not require a redesign.",
+      "At Bridgestone, Isaac works across customer sales, store profitability, parts inventory, work orders, and point-of-sale operations. He helped his location reach the top sales position while keeping customer loyalty and satisfaction at the center of the work.",
+      "His earlier leadership spans retail department management and more than seven years directing student programs. That work includes managing staff and volunteer teams, growing attendance, leading fundraising, coordinating community outreach, and analyzing operational data in Excel.",
     ],
     facts: [
-      { label: "Family role", value: "Oldest brother" },
-      { label: "Portrait", value: "Coming soon" },
-      { label: "Resume", value: "Coming soon" },
-      { label: "Projects", value: "Being documented" },
+      { label: "Based", value: "Akron, Ohio" },
+      { label: "Focus", value: "Operations + people + data" },
+      { label: "Education", value: "Stark State College" },
+      { label: "Status", value: "Working + studying" },
     ],
-    experience: [],
-    projects: [],
-    skillGroups: [],
-    education: [],
-    certifications: [],
+    experience: [
+      {
+        company: "Bridgestone",
+        role: "Tire Sales Manager",
+        range: "June 2023 - Present",
+        location: "Cleveland, Ohio",
+        summary:
+          "Customer-facing sales and store operations spanning product guidance, profitability, inventory, work orders, and retention.",
+        highlights: [
+          "Introduced tire products to customers to improve unit sales, store profit, satisfaction, loyalty, and retention.",
+          "Worked with mechanics to keep parts stocked, create work and part orders, and prepare customer invoices and tickets through the point-of-sale system.",
+          "Helped lead the location to the number-one sales position during his time on the sales team.",
+        ],
+      },
+      {
+        company: "Heartland Community Church",
+        role: "Student Ministry Director",
+        range: "January 2022 - June 2023",
+        location: "Medina, Ohio",
+        summary:
+          "Built and managed programs serving more than 150 people from grade school through young adulthood.",
+        highlights: [
+          "Increased attendance by nearly 50% in the first year through newly created programming.",
+          "Recruited, trained, and managed more than 40 volunteers while developing future leaders.",
+          "Led fundraising that generated more than $10,000 to subsidize student mission-trip costs.",
+          "Organized and analyzed operational data in Excel using Pivot Charts, VBA macros, VLOOKUP, INDEX/MATCH, and other formulas.",
+        ],
+      },
+      {
+        company: "Hartville Hardware",
+        role: "Department Manager",
+        range: "February 2021 - February 2022",
+        location: "Hartville, Ohio",
+        summary:
+          "Managed a seven-person department responsible for more than $4 million in 2021 revenue.",
+        highlights: [
+          "Led, scheduled, and supported a team of seven adults across daily department operations.",
+          "Maintained supplier relationships to secure products and keep inventory under control.",
+        ],
+      },
+      {
+        company: "RiverTree Lake Church",
+        role: "Student Ministry Director",
+        range: "January 2016 - February 2021",
+        location: "Uniontown, Ohio",
+        summary:
+          "Directed weekly programs, community outreach, and volunteer development for middle- and high-school students.",
+        highlights: [
+          "Increased weekly attendance by more than 40% over the course of his tenure.",
+          "Created a student journal to reinforce lessons and help participants work through ideas and relationships.",
+          "Developed school-based outreach and tailored youth-group satellite programs.",
+          "Recruited, trained, and managed more than 25 volunteers while developing future leaders.",
+        ],
+      },
+    ],
+    projects: [
+      {
+        kicker: "Sales operations",
+        title: "Customer Sales & Store Workflow",
+        description:
+          "A customer-to-work-order process connecting product guidance, parts inventory, mechanic coordination, invoices, and retention-focused service.",
+        tools: ["Sales", "POS", "Inventory", "Work orders", "Customer retention"],
+      },
+      {
+        kicker: "Program leadership",
+        title: "Community Program Growth",
+        description:
+          "Programming and volunteer systems that served more than 150 people, increased attendance by nearly 50%, and raised over $10,000 for participant costs.",
+        tools: ["Program design", "Team leadership", "Fundraising", "Community outreach"],
+      },
+      {
+        kicker: "Operational analytics",
+        title: "Excel Reporting & Planning",
+        description:
+          "Operational tracking and analysis using Excel Pivot Charts, VBA macros, VLOOKUP, INDEX/MATCH, and reusable formulas.",
+        tools: ["Excel", "Pivot Charts", "VBA", "VLOOKUP", "INDEX/MATCH"],
+      },
+    ],
+    skillGroups: [
+      {
+        label: "Operations",
+        skills: ["Sales", "Inventory", "POS systems", "Scheduling", "Supplier relationships"],
+      },
+      {
+        label: "Data & engineering",
+        skills: ["Excel", "VBA", "SQL", "R", "Java", "C++", "BI tools"],
+      },
+      {
+        label: "Leadership",
+        skills: ["Team management", "Volunteer development", "Program design", "Fundraising", "Community outreach"],
+      },
+    ],
+    education: [
+      {
+        school: "Stark State College",
+        degree: "Associate of Computer Engineering",
+        range: "2024 - Currently attending",
+        detail:
+          "Coursework includes Java, C++, SQL, analytical geometry, calculus, and technical report writing.",
+      },
+      {
+        school: "Malone University",
+        degree: "Bachelor's degrees in Youth Ministry and Bible/Theology",
+        range: "2014 - 2018",
+        detail: "Completed in Canton, Ohio.",
+      },
+    ],
+    certifications: [
+      "Google Data Analytics Certificate - Coursera, June 2023",
+    ],
+    email: "IsaacSmagz@gmail.com",
   },
 };
 

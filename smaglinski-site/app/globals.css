@@ -9,8 +9,8 @@
   --cyan: #42d7ff;
   --cobalt: #7b8cff;
   --copper: #ff8a4c;
-  --font-sans: "Segoe UI", Arial, Helvetica, sans-serif;
-  --font-mono: "Cascadia Mono", "SFMono-Regular", Consolas, "Courier New", monospace;
+  --font-sans: var(--font-geist-sans), "Segoe UI", Arial, Helvetica, sans-serif;
+  --font-mono: var(--font-geist-mono), "Cascadia Mono", "SFMono-Regular", Consolas, "Courier New", monospace;
   --page-gutter: clamp(1.25rem, 4vw, 4.5rem);
   --content-width: 92rem;
 }

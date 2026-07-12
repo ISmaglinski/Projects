@@ -4,6 +4,7 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import { PortraitPlaceholder } from "./components";
 import { people, personOrder, type Person } from "./site-data";
+import { ThemeControl } from "./theme-control";
 import { useHashTabs } from "./use-tabs";
 
 const PROFILE_TABS = [
@@ -87,19 +88,22 @@ export function ProfileTabs({ person }: { person: Person }) {
           ))}
         </div>
 
-        <nav className="sibling-switcher" aria-label="Switch brother profile">
-          {personOrder.map((key) => (
-            <Link
-              key={key}
-              href={`/${key}#overview`}
-              className={key === person.key ? "is-current" : ""}
-              aria-current={key === person.key ? "page" : undefined}
-            >
-              {people[key].firstName.slice(0, 1)}
-              <span className="sr-only">{people[key].firstName}</span>
-            </Link>
-          ))}
-        </nav>
+        <div className="interface-actions">
+          <ThemeControl />
+          <nav className="sibling-switcher" aria-label="Switch brother profile">
+            {personOrder.map((key) => (
+              <Link
+                key={key}
+                href={`/${key}#overview`}
+                className={key === person.key ? "is-current" : ""}
+                aria-current={key === person.key ? "page" : undefined}
+              >
+                {people[key].firstName.slice(0, 2)}
+                <span className="sr-only">{people[key].firstName}</span>
+              </Link>
+            ))}
+          </nav>
+        </div>
       </header>
 
       <div className="interface-context profile-context">
@@ -263,7 +267,7 @@ export function ProfileTabs({ person }: { person: Person }) {
               <div className="profile-panel-heading">
                 <span className="panel-kicker">03 / SELECTED WORK</span>
                 <h2>Proof, not promises.</h2>
-                <p>Real coursework and team builds, written as concise case-study starting points.</p>
+                <p>Real work, coursework, and team builds, written as concise case studies.</p>
               </div>
               <div className="profile-work-grid">
                 {person.projects.map((project, index) => (
