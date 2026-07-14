@@ -15,6 +15,8 @@ export type Project = {
   description: string;
   tools: string[];
   sourceUrl?: string;
+  image?: string;
+  imageAlt?: string;
 };
 
 export type Education = {
@@ -68,6 +70,7 @@ export type Person = {
   certifications: string[];
   email?: string;
   linkedIn?: string;
+  github?: string;
 };
 
 export const people: Record<PersonKey, Person> = {
@@ -118,6 +121,57 @@ export const people: Record<PersonKey, Person> = {
     ],
     projects: [
       {
+        kicker: "Local knowledge systems",
+        title: "Local RAG Knowledge Platform",
+        description:
+          "A self-hosted document intelligence platform that ingests PDF, DOCX, TXT, and Markdown files, creates embeddings, and returns source-grounded answers with filename, page, and chunk citations. Separate libraries, hybrid search, summaries, document controls, system statistics, and automated evaluations keep the system useful and testable.",
+        tools: [
+          "Python",
+          "FastAPI",
+          "Qdrant",
+          "Ollama",
+          "Qwen3 embeddings",
+          "Docker",
+          "Linux",
+          "REST APIs",
+        ],
+      },
+      {
+        kicker: "Schema-aware generative AI",
+        title: "Schema-Aware Local SQL Writer",
+        description:
+          "A locally hosted assistant that retrieves database-schema context before translating plain-language requests into T-SQL. Tested against a 214-table schema, it identifies the right tables, columns, relationships, joins, and filters, then returns the result through a focused web interface and API.",
+        tools: [
+          "Python",
+          "FastAPI",
+          "T-SQL",
+          "SQL Server",
+          "vLLM",
+          "GPT-OSS 120B",
+          "RAG",
+          "Vector search",
+        ],
+        image: "/images/projects/sql-writer.png",
+        imageAlt:
+          "Dark SQL Writer interface with a natural-language request field, generated SQL result, validation, tables used, and ticket reference panels",
+      },
+      {
+        kicker: "Local AI infrastructure",
+        title: "Multi-GPU Local AI Server",
+        description:
+          "A self-hosted Linux inference server built around four RTX 3090 GPUs, 96 GB of combined VRAM, and 128 GB of system memory. It runs large language and embedding models alongside the RAG platform, SQL Writer, Open WebUI, and network-accessible AI APIs.",
+        tools: [
+          "Ubuntu Server",
+          "NVIDIA CUDA",
+          "4 x RTX 3090",
+          "Ollama",
+          "vLLM",
+          "Docker",
+          "systemd",
+          "Linux networking",
+        ],
+      },
+      {
         kicker: "Team software engineering",
         title: "Rocky",
         description:
@@ -132,6 +186,94 @@ export const people: Record<PersonKey, Person> = {
         ],
         sourceUrl:
           "https://github.com/Spring-2026-Software-Engineering/Rocky",
+      },
+      {
+        kicker: "Local developer tooling",
+        title: "Self-Hosted VS Code AI Copilot",
+        description:
+          "A private coding-assistant workflow that connects VS Code on Windows to models running on the Linux AI server. It can create and edit files, explain unfamiliar projects, troubleshoot errors, and scaffold React and Vite applications without sending the work to a hosted model.",
+        tools: [
+          "VS Code",
+          "Continue",
+          "Cline",
+          "Ollama API",
+          "qwen3-coder-next",
+          "React",
+          "Vite",
+          "REST APIs",
+        ],
+      },
+      {
+        kicker: "Voice + remote systems",
+        title: "Local Jarvis Voice Assistant",
+        description:
+          "A Windows voice-assistant prototype that records and transcribes speech locally, sends the request to a language model on the Linux server, and reads the response aloud. It can also check remote GPU health over SSH with NVIDIA-SMI.",
+        tools: [
+          "Python",
+          "faster-whisper",
+          "sounddevice",
+          "pyttsx3",
+          "Ollama",
+          "Llama 3.3 70B",
+          "SSH",
+          "NVIDIA-SMI",
+        ],
+      },
+      {
+        kicker: "Generative frontend tooling",
+        title: "Local AI Website Generator",
+        description:
+          "An AI-powered website-generation prototype that uses local coding models to produce React and Vite pages and reusable components. The project combines a generator interface, reusable templates, AI service modules, content-generation logic, and browser-based testing.",
+        tools: [
+          "React",
+          "Vite",
+          "JavaScript",
+          "Tailwind CSS",
+          "Ollama",
+          "Local LLMs",
+          "Playwright",
+        ],
+      },
+      {
+        kicker: "Recommendation experience",
+        title: "GameReady PC Build Planner",
+        description:
+          "A responsive web app that recommends PC component combinations from a shopper's budget, preferred games, performance targets, and build tier, then explains pricing, expected results, and useful upgrade paths.",
+        tools: [
+          "React",
+          "Vite",
+          "JavaScript",
+          "Tailwind CSS",
+          "Recommendation logic",
+          "Local JSON data",
+        ],
+      },
+      {
+        kicker: "Frontend modernization",
+        title: "Business Website Recreation",
+        description:
+          "A recreation and modernization of an existing business website that preserves its important content, branding, maps, and sections while improving responsive behavior, contact-page structure, CAPTCHA planning, and overall project organization.",
+        tools: [
+          "HTML",
+          "CSS",
+          "JavaScript",
+          "Responsive design",
+          "CAPTCHA planning",
+          "Frontend refactoring",
+        ],
+      },
+      {
+        kicker: "Windows automation",
+        title: "PowerShell SQL File Organizer",
+        description:
+          "A PowerShell utility that recursively gathers SQL files from nested folders into one central directory. Duplicate names are preserved safely by adding the source folder and, when needed, a numeric suffix instead of overwriting work.",
+        tools: [
+          "PowerShell",
+          "Windows",
+          "File-system automation",
+          "Recursive processing",
+          "Duplicate-safe naming",
+        ],
       },
       {
         kicker: "Data pipeline",
@@ -197,6 +339,7 @@ export const people: Record<PersonKey, Person> = {
     ],
     email: "Smaglinski.Ian@gmail.com",
     linkedIn: "https://linkedin.com/in/ian-smaglinski",
+    github: "https://github.com/ISmaglinski",
   },
   jacob: {
     key: "jacob",

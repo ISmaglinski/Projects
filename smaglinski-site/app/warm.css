@@ -1013,7 +1013,7 @@ body {
     var(--warm-ink)
   );
   min-height: 38rem;
-  grid-template-rows: 4.5rem 2.75rem minmax(0, 1fr);
+  grid-template-rows: 4.5rem 4.25rem minmax(0, 1fr);
 }
 
 .tabbed-profile .interface-footer {
@@ -1049,7 +1049,7 @@ body {
 
 .profile-context {
   grid-template-columns: 1fr auto;
-  padding: 0 clamp(1.25rem, 3vw, 3.25rem);
+  padding: 0 calc(clamp(1.25rem, 3vw, 3.25rem) + 4.5rem);
   border-color: var(--warm-line);
   background: var(--warm-active);
   color: var(--warm-muted);
@@ -1057,6 +1057,73 @@ body {
   font-size: 0.78rem;
   letter-spacing: 0;
   text-transform: none;
+}
+
+.profile-context-breadcrumb {
+  color: var(--warm-muted);
+}
+
+.profile-context-breadcrumb a:hover,
+.profile-context-breadcrumb a:focus-visible {
+  color: var(--profile-accent-readable);
+}
+
+.profile-section-arrows {
+  position: absolute;
+  z-index: 1;
+  inset: 0 clamp(1.25rem, 3vw, 3.25rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.profile-section-arrow {
+  appearance: none;
+  width: 3.35rem;
+  height: 3.35rem;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--warm-line);
+  border-radius: 999px;
+  background: var(--warm-surface);
+  color: var(--warm-ink);
+  box-shadow: var(--warm-card-shadow);
+  cursor: pointer;
+  pointer-events: auto;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.profile-section-arrow svg {
+  width: 2rem;
+  height: 2rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.profile-section-arrow:hover,
+.profile-section-arrow:focus-visible {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, var(--warm-surface));
+  color: var(--warm-ink);
+}
+
+.profile-section-arrow--previous:hover,
+.profile-section-arrow--previous:focus-visible {
+  transform: translateX(-0.18rem);
+}
+
+.profile-section-arrow--next:hover,
+.profile-section-arrow--next:focus-visible {
+  transform: translateX(0.18rem);
 }
 
 .profile-context p {
@@ -1426,6 +1493,52 @@ body {
   box-shadow: var(--warm-card-shadow);
 }
 
+.profile-work-card--media {
+  min-height: auto;
+}
+
+.profile-work-media {
+  margin: 1.15rem 0 0.15rem;
+  overflow: hidden;
+  border: 1px solid var(--warm-line);
+  border-radius: 0.9rem;
+  background: #0a0f15;
+}
+
+.profile-work-media-frame {
+  aspect-ratio: 3 / 1;
+  overflow: hidden;
+  background: #0a0f15;
+}
+
+.profile-work-media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center top;
+  transform: scale(1.38);
+  transform-origin: center top;
+}
+
+.profile-work-media figcaption {
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 0.8rem;
+  border-top: 1px solid var(--warm-line);
+  background: color-mix(in srgb, var(--warm-surface) 94%, #0a0f15);
+  color: var(--warm-muted);
+  font-size: clamp(0.72rem, 0.1vw + 0.64rem, 0.84rem);
+}
+
+.profile-work-media figcaption strong {
+  color: var(--warm-ink);
+  font-weight: 650;
+}
+
 .profile-work-grid article > div {
   min-width: 0;
   display: flex;
@@ -1476,6 +1589,16 @@ body {
   color: var(--warm-muted);
   font-family: var(--font-sans);
   font-size: clamp(0.75rem, 0.12vw + 0.62rem, 0.9rem);
+}
+
+@media (min-width: 1151px) {
+  .profile-workspace--ian .profile-work-card--media {
+    grid-column: span 2;
+  }
+
+  .profile-workspace--ian .profile-work-grid article:last-child {
+    grid-column: 1 / -1;
+  }
 }
 
 .shared-work-link {
@@ -1676,7 +1799,7 @@ body {
   }
 
   .tabbed-profile {
-    grid-template-rows: 7rem 2.65rem minmax(0, 1fr);
+    grid-template-rows: 7rem 3.8rem minmax(0, 1fr);
   }
 
   .profile-interface-header {
@@ -1731,7 +1854,30 @@ body {
   }
 
   .profile-context {
-    padding-inline: 1rem;
+    padding-inline: 4.35rem;
+  }
+
+  .profile-context-breadcrumb {
+    display: none;
+  }
+
+  .profile-context p {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  .profile-section-arrows {
+    inset-inline: 1rem;
+  }
+
+  .profile-section-arrow {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .profile-section-arrow svg {
+    width: 1.75rem;
+    height: 1.75rem;
   }
 
   .profile-overview-layout {
@@ -1838,6 +1984,19 @@ body {
     padding-inline: 0.55rem;
     font-size: 0.69rem;
   }
+
+  .profile-context {
+    padding-inline: 3.95rem;
+  }
+
+  .profile-section-arrows {
+    inset-inline: 0.75rem;
+  }
+
+  .profile-section-arrow {
+    width: 2.85rem;
+    height: 2.85rem;
+  }
 }
 
 @media (max-height: 700px) and (min-width: 821px) {
@@ -1847,7 +2006,17 @@ body {
   }
 
   .tabbed-profile {
-    grid-template-rows: 4rem 2.4rem minmax(0, 1fr);
+    grid-template-rows: 4rem 3.5rem minmax(0, 1fr);
+  }
+
+  .profile-section-arrow {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .profile-section-arrow svg {
+    width: 1.65rem;
+    height: 1.65rem;
   }
 
   .home-tab-panel--brothers,
@@ -1862,7 +2031,8 @@ body {
   .brother-card-grid .portrait-system,
   .person-card-copy,
   .person-card-hover-copy,
-  .portrait-layer {
+  .portrait-layer,
+  .profile-section-arrow {
     transition: none !important;
     transform: none !important;
   }

@@ -1,7 +1,9 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { useEffect, type CSSProperties } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { PortraitPlaceholder } from "./components";
 import { people, personOrder, type Person } from "./site-data";
 import { ThemeControl } from "./theme-control";
@@ -42,6 +44,7 @@ function PendingPanel({
 }
 
 export function ProfileTabs({ person }: { person: Person }) {
+  const router = useRouter();
   const { activeTab, selectTab, onTabKeyDown } = useHashTabs<ProfileTabId>(
     PROFILE_TAB_IDS,
     "overview",
@@ -51,6 +54,58 @@ export function ProfileTabs({ person }: { person: Person }) {
   const activeMeta =
     PROFILE_TABS.find((tab) => tab.id === activeTab) ?? PROFILE_TABS[0];
   const isPending = person.status === "pending";
+  const activeTabIndex = PROFILE_TAB_IDS.indexOf(activeTab);
+  const previousTab =
+    activeTabIndex > 0 ? PROFILE_TABS[activeTabIndex - 1] : null;
+  const nextTab = PROFILE_TABS[(activeTabIndex + 1) % PROFILE_TABS.length];
+  const previousTabId = previousTab?.id;
+  const nextTabId = nextTab.id;
+
+  useEffect(() => {
+    const handleSectionShortcut = (event: KeyboardEvent) => {
+      if (
+        event.defaultPrevented ||
+        event.repeat ||
+        event.isComposing ||
+        event.ctrlKey ||
+        event.altKey ||
+        event.metaKey ||
+        event.shiftKey
+      ) {
+        return;
+      }
+
+      const target = event.target as HTMLElement | null;
+      const isSectionArrow = target?.closest("[data-profile-section-arrow]");
+      if (
+        target?.isContentEditable ||
+        (!isSectionArrow &&
+          target?.closest(
+            'input, textarea, select, button, a, [role="tablist"], [contenteditable]',
+          ))
+      ) {
+        return;
+      }
+
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        if (previousTabId) {
+          selectTab(previousTabId, true);
+        } else {
+          router.push("/#brothers");
+        }
+        return;
+      }
+
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        selectTab(nextTabId, true);
+      }
+    };
+
+    window.addEventListener("keydown", handleSectionShortcut);
+    return () => window.removeEventListener("keydown", handleSectionShortcut);
+  }, [nextTabId, previousTabId, router, selectTab]);
 
   return (
     <div className="tabbed-profile" style={style}>
@@ -80,7 +135,15 @@ export function ProfileTabs({ person }: { person: Person }) {
               aria-controls={`profile-panel-${tab.id}`}
               tabIndex={activeTab === tab.id ? 0 : -1}
               onClick={() => activeTab !== tab.id && selectTab(tab.id)}
-              onKeyDown={(event) => onTabKeyDown(event, tab.id)}
+              onKeyDown={(event) => {
+                if (tab.id === "overview" && event.key === "ArrowLeft") {
+                  event.preventDefault();
+                  router.push("/#brothers");
+                  return;
+                }
+
+                onTabKeyDown(event, tab.id);
+              }}
             >
               <kbd>{index + 1}</kbd>
               <span>{tab.label}</span>
@@ -107,11 +170,60 @@ export function ProfileTabs({ person }: { person: Person }) {
       </header>
 
       <div className="interface-context profile-context">
-        <span>
+        <div
+          className="profile-section-arrows"
+          role="group"
+          aria-label="Move between profile sections"
+        >
+          {previousTab === null ? (
+            <Link
+              className="profile-section-arrow profile-section-arrow--previous"
+              href="/#brothers"
+              data-profile-section-arrow
+              aria-label="Back to brother selection"
+              aria-keyshortcuts="ArrowLeft"
+              title="Back to brother selection (Left arrow key)"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+            </Link>
+          ) : (
+            <button
+              className="profile-section-arrow profile-section-arrow--previous"
+              type="button"
+              data-profile-section-arrow
+              onClick={() => selectTab(previousTab.id)}
+              aria-label={`Previous section: ${previousTab.label}`}
+              aria-controls={`profile-panel-${previousTab.id}`}
+              aria-keyshortcuts="ArrowLeft"
+              title={`Previous section: ${previousTab.label} (Left arrow key)`}
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+            </button>
+          )}
+          <button
+            className="profile-section-arrow profile-section-arrow--next"
+            type="button"
+            data-profile-section-arrow
+            onClick={() => selectTab(nextTabId)}
+            aria-label={`Next section: ${nextTab.label}`}
+            aria-controls={`profile-panel-${nextTabId}`}
+            aria-keyshortcuts="ArrowRight"
+            title={`Next section: ${nextTab.label} (Right arrow key)`}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 6 6 6-6 6" />
+            </svg>
+          </button>
+        </div>
+        <span className="profile-context-breadcrumb">
           <Link href="/#brothers">BROTHERS</Link> / {person.firstName.toUpperCase()}
         </span>
         <p>{activeMeta.number} · {activeMeta.label}</p>
-        <span className="interface-hint">ARROWS TO MOVE · 1–4 TO SWITCH</span>
+        <span className="interface-hint">← → SECTIONS · 1–4 DIRECT</span>
       </div>
 
       <p className="sr-only" aria-live="polite" aria-atomic="true">
@@ -173,6 +285,11 @@ export function ProfileTabs({ person }: { person: Person }) {
                 {person.linkedIn ? (
                   <a href={person.linkedIn} target="_blank" rel="noreferrer">
                     LinkedIn <span aria-hidden="true">↗</span>
+                  </a>
+                ) : null}
+                {person.github ? (
+                  <a href={person.github} target="_blank" rel="noreferrer">
+                    GitHub <span aria-hidden="true">↗</span>
                   </a>
                 ) : null}
                 <Link href="/?project=ai-machine#builds">
@@ -263,21 +380,44 @@ export function ProfileTabs({ person }: { person: Person }) {
           hidden={activeTab !== "work"}
         >
           {person.projects.length ? (
-            <div className="profile-workspace">
+            <div className={`profile-workspace profile-workspace--${person.key}`}>
               <div className="profile-panel-heading">
                 <span className="panel-kicker">03 / SELECTED WORK</span>
                 <h2>Proof, not promises.</h2>
-                <p>Real work, coursework, and team builds, written as concise case studies.</p>
+                <p>
+                  Real systems, software, coursework, and team builds, written as concise case studies.
+                </p>
               </div>
               <div className="profile-work-grid">
                 {person.projects.map((project, index) => (
-                  <article key={project.title}>
+                  <article
+                    className={project.image ? "profile-work-card profile-work-card--media" : "profile-work-card"}
+                    key={project.title}
+                  >
                     <span className="profile-work-number">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <div>
                       <small>{project.kicker}</small>
                       <h3>{project.title}</h3>
+                      {project.image ? (
+                        <figure className="profile-work-media">
+                          <div className="profile-work-media-frame">
+                            <Image
+                              src={project.image}
+                              alt={project.imageAlt ?? ""}
+                              width={3829}
+                              height={1966}
+                              loading="eager"
+                              sizes="(max-width: 820px) 92vw, (max-width: 1150px) 44vw, 52vw"
+                            />
+                          </div>
+                          <figcaption>
+                            <span>Working interface</span>
+                            <strong>Local host</strong>
+                          </figcaption>
+                        </figure>
+                      ) : null}
                       <p>{project.description}</p>
                       <div className="tag-list">
                         {project.tools.map((tool) => <span key={tool}>{tool}</span>)}

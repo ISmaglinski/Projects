@@ -69,6 +69,40 @@ test("adds Ian's verified Rocky team project and source link", async () => {
   assert.match(profile, /View on GitHub/);
 });
 
+test("documents Ian's expanded local AI and software project collection", async () => {
+  const data = await readFile(new URL("app/site-data.ts", root), "utf8");
+  const profile = await readFile(new URL("app/profile-tabs.tsx", root), "utf8");
+  const assistant = await readFile(
+    new URL("app/assistant-knowledge.ts", root),
+    "utf8",
+  );
+  const ian = data.slice(data.indexOf("  ian: {"), data.indexOf("  jacob: {"));
+
+  for (const title of [
+    "Local RAG Knowledge Platform",
+    "Schema-Aware Local SQL Writer",
+    "Multi-GPU Local AI Server",
+    "Self-Hosted VS Code AI Copilot",
+    "Local Jarvis Voice Assistant",
+    "Local AI Website Generator",
+    "GameReady PC Build Planner",
+    "Business Website Recreation",
+    "PowerShell SQL File Organizer",
+  ]) {
+    assert.match(ian, new RegExp(title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  }
+
+  assert.match(ian, /filename, page, and chunk citations/);
+  assert.match(ian, /214-table schema/);
+  assert.match(ian, /96 GB of combined VRAM/);
+  assert.match(ian, /128 GB of system memory/);
+  assert.match(ian, /sql-writer\.png/);
+  assert.match(profile, /profile-work-media/);
+  assert.match(profile, /project\.imageAlt/);
+  assert.match(assistant, /Schema-Aware Local SQL Writer/);
+  await access(new URL("public/images/projects/sql-writer.png", root));
+});
+
 test("integrates Isaac's resume across every profile section", async () => {
   const data = await readFile(new URL("app/site-data.ts", root), "utf8");
 
@@ -126,4 +160,35 @@ test("every brother profile exposes the same four tab choices", async () => {
 
   assert.match(profile, /role="tabpanel"/);
   assert.match(profile, /PROFILE IN PROGRESS/);
+});
+
+test("supports section navigation, brother selection return, and Ian's GitHub profile", async () => {
+  const data = await readFile(new URL("app/site-data.ts", root), "utf8");
+  const profile = await readFile(new URL("app/profile-tabs.tsx", root), "utf8");
+  const styles = await readFile(new URL("app/warm.css", root), "utf8");
+
+  assert.match(data, /github\?: string/);
+  assert.match(data, /github: "https:\/\/github\.com\/ISmaglinski"/);
+  assert.match(profile, /person\.github/);
+  assert.match(profile, /aria-keyshortcuts="ArrowLeft"/);
+  assert.match(profile, /aria-keyshortcuts="ArrowRight"/);
+  assert.match(profile, /event\.defaultPrevented/);
+  assert.match(profile, /\[role="tablist"\]/);
+  assert.match(profile, /selectTab\(previousTabId, true\)/);
+  assert.match(profile, /selectTab\(nextTabId, true\)/);
+  assert.match(profile, /previousTabId/);
+  assert.match(profile, /nextTabId/);
+  assert.match(profile, /router\.push\("\/#brothers"\)/);
+  assert.match(profile, /activeTabIndex > 0/);
+  assert.match(profile, /tab\.id === "overview" && event\.key === "ArrowLeft"/);
+  assert.doesNotMatch(
+    profile,
+    /activeTabIndex - 1 \+ PROFILE_TABS\.length/,
+  );
+  assert.ok(profile.includes('aria-label="Back to brother selection"'));
+  assert.ok(profile.includes('aria-label="Move between profile sections"'));
+  assert.ok(profile.includes('className="sibling-switcher"'));
+  assert.ok(profile.includes('href={`/${key}#overview`}'));
+  assert.match(styles, /\.profile-section-arrow\s*\{/);
+  assert.match(styles, /\.profile-section-arrows\s*\{/);
 });
